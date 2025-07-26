@@ -1,0 +1,19 @@
+# Test artifacts
+cogtest
+cogtest.c
+cogload_test.sh
+
+# Build artifacts  
+*.o
+*.a
+*.out
+*.exe
+
+# Temporary files
+/tmp/
+.tmp/
+
+# Editor artifacts
+*~
+*.swp
+.#*
