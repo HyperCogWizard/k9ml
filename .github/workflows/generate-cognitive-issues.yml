@@ -1,0 +1,350 @@
+name: Generate Cognitive Engineering Issues
+
+on:
+  workflow_dispatch:
+    inputs:
+      create_issues:
+        description: 'Create all cognitive engineering issues'
+        required: true
+        default: 'true'
+        type: boolean
+  schedule:
+    # Run once when initially set up (can be disabled after first run)
+    - cron: '0 0 1 1 *'  # January 1st annually
+
+jobs:
+  generate-issues:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Generate Cognitive Engineering Issues
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const cognitiveIssues = [
+            {
+              title: "Implement Attention-Based Cognitive Process Scheduler",
+              body: `## Description
+          Refactor port/sched.c to integrate a cognitive priority queue and attention allocator. Define prime tensor shape [n_procs, n_features, t_time]. Design rigorous tests simulating emergent scheduling dynamics under variable loads.
+          
+          ## Technical Specifications
+          - **Tensor Shape**: [n_procs, n_features, t_time]
+          - **Target Files**: \`port/proc.c\`, \`port/portdat.h\`
+          - **Architecture**: Cognitive-first scheduling with attention mechanisms
+          
+          ## Actionable Tasks
+          - [ ] Analyze current scheduling algorithm in \`port/proc.c\`
+          - [ ] Design cognitive priority queue data structure
+          - [ ] Implement attention allocator with tensor dimensions [n_procs, n_features, t_time]
+          - [ ] Create emergent scheduling dynamics simulation
+          - [ ] Develop variable load testing framework
+          - [ ] Benchmark against traditional Round Robin/CFS schedulers
+          - [ ] Document cognitive scheduling API
+          - [ ] Integration tests for multi-architecture support (x86, ARM, PowerPC)
+          
+          ## Success Criteria
+          - Cognitive scheduler demonstrates improved performance under cognitive workloads
+          - Attention allocation shows measurable resource optimization
+          - All existing kernel functionality remains intact
+          - Tests pass on all supported architectures`,
+              labels: ["enhancement", "cognitive-core", "scheduler", "high-priority"]
+            },
+            {
+              title: "Integrate Pattern-Aware Memory Management",
+              body: `## Description
+          Extend port/page.c and port/segment.c for SGPATTERN and SGHYPERGRAPH types. Define tensor shapes [n_segments, d_pattern, d_hypergraph]. Construct memory stress tests for distributed pattern allocation.
+          
+          ## Technical Specifications
+          - **Tensor Shape**: [n_segments, d_pattern, d_hypergraph]
+          - **Target Files**: \`port/page.c\`, \`port/segment.c\`, \`port/cache.c\`
+          - **New Types**: SGPATTERN, SGHYPERGRAPH
+          
+          ## Actionable Tasks
+          - [ ] Extend \`Segment\` structure in \`port/portdat.h\` for pattern types
+          - [ ] Implement SGPATTERN segment type with pattern recognition
+          - [ ] Implement SGHYPERGRAPH segment type with graph structures
+          - [ ] Add pattern-aware page allocation in \`port/page.c\`
+          - [ ] Create distributed pattern allocation algorithms
+          - [ ] Design memory stress testing framework
+          - [ ] Implement pattern compression for memory efficiency
+          - [ ] Add semantic indexing for pattern retrieval
+          - [ ] Cross-architecture memory layout validation
+          
+          ## Success Criteria
+          - Pattern-aware memory shows improved locality for cognitive workloads
+          - Hypergraph segments enable efficient graph processing
+          - Memory stress tests demonstrate robustness under load
+          - Backwards compatibility with existing segment types`,
+              labels: ["enhancement", "cognitive-core", "memory-management", "high-priority"]
+            },
+            {
+              title: "Create Hypergraph Processing Engine with Scheme Bindings",
+              body: `## Description
+          Implement node, edge, weight, and dynamics primitives in C with Scheme bindings. Define tensor shapes [n_nodes, n_hyperedges, d_attention, t_evo]. Validate pattern-matching and attention propagation performance.
+          
+          ## Technical Specifications
+          - **Tensor Shape**: [n_nodes, n_hyperedges, d_attention, t_evo]
+          - **Language Bindings**: C core with Scheme API
+          - **Components**: Nodes, edges, weights, dynamics primitives
+          
+          ## Actionable Tasks
+          - [ ] Design hypergraph data structures in C
+          - [ ] Implement node management (create, delete, update)
+          - [ ] Implement hyperedge operations (connect, disconnect, traverse)
+          - [ ] Add weight calculation and propagation algorithms
+          - [ ] Create dynamics simulation engine
+          - [ ] Design Scheme language bindings API
+          - [ ] Implement attention propagation with tensor [n_nodes, n_hyperedges, d_attention, t_evo]
+          - [ ] Create pattern-matching algorithms for hypergraph structures
+          - [ ] Performance benchmarking and optimization
+          - [ ] Integration with existing kernel memory management
+          
+          ## Success Criteria
+          - Hypergraph engine handles large-scale graphs efficiently
+          - Scheme bindings provide intuitive cognitive programming interface
+          - Pattern matching demonstrates high accuracy and performance
+          - Attention propagation shows measurable cognitive enhancement`,
+              labels: ["enhancement", "cognitive-engine", "scheme-bindings", "hypergraph"]
+            },
+            {
+              title: "Build Neural-Symbolic Integration Layer",
+              body: `## Description
+          Map neural patterns to symbolic representations and integrate a lightweight Scheme API for logic inference. Define tensor shapes [n_symbols, d_pattern, d_prob]. Provide unit tests for symbol grounding and inference.
+          
+          ## Technical Specifications
+          - **Tensor Shape**: [n_symbols, d_pattern, d_prob]
+          - **Integration**: Neural pattern → Symbolic representation
+          - **API**: Lightweight Scheme interface for logic inference
+          
+          ## Actionable Tasks
+          - [ ] Design neural pattern representation format
+          - [ ] Implement symbolic abstraction layer
+          - [ ] Create pattern-to-symbol mapping algorithms
+          - [ ] Build probabilistic reasoning engine with [n_symbols, d_pattern, d_prob]
+          - [ ] Implement Scheme API for symbolic operations
+          - [ ] Add logic inference engine (forward/backward chaining)
+          - [ ] Create symbol grounding mechanisms
+          - [ ] Develop unit tests for symbol-neural integration
+          - [ ] Performance optimization for real-time inference
+          - [ ] Documentation for neural-symbolic programming model
+          
+          ## Success Criteria
+          - Neural patterns successfully convert to symbolic representations
+          - Logic inference demonstrates correct reasoning capabilities
+          - Symbol grounding shows measurable accuracy improvements
+          - Integration maintains real-time performance requirements`,
+              labels: ["enhancement", "neural-symbolic", "scheme-api", "inference-engine"]
+            },
+            {
+              title: "Engineer Cognitive Networking Stack",
+              body: `## Description
+          Upgrade port/netif.c for pattern-aware routing and distributed attention propagation. Define tensor shapes [n_nodes, n_routes, d_attention]. Design simulated distributed cognitive workload over virtual nodes.
+          
+          ## Technical Specifications
+          - **Tensor Shape**: [n_nodes, n_routes, d_attention]
+          - **Target Files**: \`port/netif.c\`, network device drivers
+          - **Features**: Pattern-aware routing, distributed attention
+          
+          ## Actionable Tasks
+          - [ ] Analyze current networking stack in \`port/netif.c\`
+          - [ ] Design pattern-aware routing protocols
+          - [ ] Implement distributed attention propagation mechanisms
+          - [ ] Add cognitive packet classification and prioritization
+          - [ ] Create tensor-based routing tables [n_nodes, n_routes, d_attention]
+          - [ ] Implement cognitive load balancing algorithms
+          - [ ] Design virtual node simulation framework
+          - [ ] Add distributed cognitive workload generation
+          - [ ] Performance testing across different network topologies
+          - [ ] Integration with existing TCP/IP stack
+          
+          ## Success Criteria
+          - Pattern-aware routing shows improved cognitive traffic handling
+          - Distributed attention maintains coherence across network nodes
+          - Virtual node simulation validates scalability
+          - Backwards compatibility with standard networking protocols`,
+              labels: ["enhancement", "networking", "distributed-systems", "attention-propagation"]
+            },
+            {
+              title: "Develop Cognitive Storage and Filesystem",
+              body: `## Description
+          Create /cognitive, /attention, /hypergraph mount points with semantic indexing. Extend port/devfs.c, port/mount.c, and port/cache.c. Define tensor shapes [n_files, d_semantics, t_version]. Test semantic index and pattern compression.
+          
+          ## Technical Specifications
+          - **Tensor Shape**: [n_files, d_semantics, t_version]
+          - **Mount Points**: /cognitive, /attention, /hypergraph
+          - **Target Files**: \`port/devfs.c\`, \`port/mount.c\`, \`port/cache.c\`
+          
+          ## Actionable Tasks
+          - [ ] Extend \`port/devfs.c\` for cognitive filesystem types
+          - [ ] Implement /cognitive mount point with semantic operations
+          - [ ] Create /attention mount point for attention state management
+          - [ ] Add /hypergraph mount point for graph data access
+          - [ ] Design semantic indexing with tensor [n_files, d_semantics, t_version]
+          - [ ] Implement pattern compression algorithms
+          - [ ] Add version control for cognitive data structures
+          - [ ] Create filesystem API for cognitive applications
+          - [ ] Performance testing for large semantic datasets
+          - [ ] Integration with existing Plan 9 filesystem semantics
+          
+          ## Success Criteria
+          - Cognitive filesystems provide intuitive interface for AI applications
+          - Semantic indexing enables fast pattern-based retrieval
+          - Pattern compression achieves significant storage savings
+          - Mount points integrate seamlessly with existing filesystem`,
+              labels: ["enhancement", "filesystem", "semantic-indexing", "storage"]
+            },
+            {
+              title: "Scaffold Device Driver Framework for Cognitive Accelerators",
+              body: `## Description
+          Add interfaces in port/devsd.c and pc/ for neural, hypergraph, and attention engines. Define tensor shapes [n_devices, d_capabilities, t_usage]. Simulate device hot-plug and interface validation.
+          
+          ## Technical Specifications
+          - **Tensor Shape**: [n_devices, d_capabilities, t_usage]
+          - **Target Files**: \`port/devsd.c\`, architecture-specific drivers in \`pc/\`
+          - **Device Types**: Neural accelerators, hypergraph processors, attention engines
+          
+          ## Actionable Tasks
+          - [ ] Extend \`port/devsd.c\` for cognitive device types
+          - [ ] Design neural accelerator device interface
+          - [ ] Implement hypergraph processor device driver framework
+          - [ ] Add attention engine device management
+          - [ ] Create device capability tensor [n_devices, d_capabilities, t_usage]
+          - [ ] Implement hot-plug detection and configuration
+          - [ ] Add device validation and testing framework
+          - [ ] Create userspace API for cognitive device access
+          - [ ] Performance monitoring and device utilization tracking
+          - [ ] Cross-platform device driver abstraction
+          
+          ## Success Criteria
+          - Device framework supports multiple cognitive accelerator types
+          - Hot-plug functionality works reliably across architectures
+          - Device interfaces provide high-performance access for applications
+          - Framework extensible for future cognitive hardware`,
+              labels: ["enhancement", "device-drivers", "cognitive-hardware", "hot-plug"]
+            },
+            {
+              title: "Create Cognitive Debugging and Diagnostics Tools",
+              body: `## Description
+          Implement pattern visualization, attention tracing, and decision analysis. Define tensor shapes [n_patterns, d_attention, t_trace]. Design end-to-end tracing of cognitive flow.
+          
+          ## Technical Specifications
+          - **Tensor Shape**: [n_patterns, d_attention, t_trace]
+          - **Tools**: Pattern visualization, attention tracing, decision analysis
+          - **Integration**: Kernel debugging infrastructure
+          
+          ## Actionable Tasks
+          - [ ] Design cognitive debugging API in kernel
+          - [ ] Implement pattern visualization tools
+          - [ ] Create attention flow tracing mechanisms
+          - [ ] Add decision analysis and reasoning path tracking
+          - [ ] Build tensor-based trace format [n_patterns, d_attention, t_trace]
+          - [ ] Create userspace debugging interface
+          - [ ] Add real-time cognitive state monitoring
+          - [ ] Implement cognitive performance profiling
+          - [ ] Design cognitive system health checks
+          - [ ] Integration with existing kernel debugging tools
+          
+          ## Success Criteria
+          - Debugging tools provide clear insight into cognitive processes
+          - Attention tracing reveals optimization opportunities
+          - Decision analysis helps validate cognitive algorithms
+          - Tools integrate seamlessly with existing debugging workflow`,
+              labels: ["enhancement", "debugging", "diagnostics", "visualization"]
+            },
+            {
+              title: "Enhance Security and Isolation for Cognitive Processes",
+              body: `## Description
+          Extend port/proc.c and security modules for process isolation, pattern protection, and distributed trust. Define tensor shapes [n_procs, d_security, t_audit]. Conduct fuzz and audit logging.
+          
+          ## Technical Specifications
+          - **Tensor Shape**: [n_procs, d_security, t_audit]
+          - **Target Files**: \`port/proc.c\`, security subsystems
+          - **Features**: Process isolation, pattern protection, distributed trust
+          
+          ## Actionable Tasks
+          - [ ] Extend process isolation in \`port/proc.c\` for cognitive processes
+          - [ ] Implement pattern data protection mechanisms
+          - [ ] Add distributed trust and authentication framework
+          - [ ] Create security tensor tracking [n_procs, d_security, t_audit]
+          - [ ] Design cognitive process sandboxing
+          - [ ] Implement secure inter-cognitive-process communication
+          - [ ] Add audit logging for cognitive operations
+          - [ ] Create fuzzing framework for cognitive security testing
+          - [ ] Design cognitive capability-based security model
+          - [ ] Integration with existing Plan 9 security mechanisms
+          
+          ## Success Criteria
+          - Cognitive processes properly isolated from each other and system
+          - Pattern data protected from unauthorized access
+          - Audit logging provides comprehensive security monitoring
+          - Fuzzing reveals and helps fix potential security vulnerabilities`,
+              labels: ["enhancement", "security", "isolation", "audit-logging"]
+            },
+            {
+              title: "Implement Meta-Cognitive API and Self-Introspection Engine",
+              body: `## Description
+          Expose kernel tensor shapes, hypergraph stats, and attention weights via Scheme/C API. Define tensor shapes [n_metrics, d_stats, t_live]. Test live query and mutation from userland.
+          
+          ## Technical Specifications
+          - **Tensor Shape**: [n_metrics, d_stats, t_live]
+          - **API**: Scheme and C interfaces for meta-cognitive operations
+          - **Features**: Kernel introspection, live statistics, runtime adaptation
+          
+          ## Actionable Tasks
+          - [ ] Design meta-cognitive API interface
+          - [ ] Expose kernel tensor shapes to userspace
+          - [ ] Implement hypergraph statistics collection
+          - [ ] Add attention weight monitoring and adjustment
+          - [ ] Create live metrics tensor [n_metrics, d_stats, t_live]
+          - [ ] Build Scheme API for cognitive introspection
+          - [ ] Add C API for high-performance cognitive monitoring
+          - [ ] Implement runtime system adaptation based on introspection
+          - [ ] Create userspace testing and validation tools
+          - [ ] Design cognitive system tuning interface
+          
+          ## Success Criteria
+          - Meta-cognitive API provides comprehensive system introspection
+          - Live metrics enable runtime optimization and adaptation
+          - Scheme/C APIs offer both ease-of-use and performance
+          - Self-introspection improves overall system cognitive performance`,
+              labels: ["enhancement", "meta-cognitive", "introspection", "live-metrics"]
+            }
+          ];
+          
+          // Check if issues already exist to avoid duplicates
+          const existingIssues = await github.rest.issues.listForRepo({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            state: 'all',
+            labels: 'cognitive-core,cognitive-engine,neural-symbolic,networking,filesystem,device-drivers,debugging,security,meta-cognitive'
+          });
+          
+          const existingTitles = existingIssues.data.map(issue => issue.title);
+          
+          for (const issue of cognitiveIssues) {
+            // Skip if issue already exists
+            if (existingTitles.includes(issue.title)) {
+              console.log(`Issue already exists: ${issue.title}`);
+              continue;
+            }
+            
+            try {
+              const response = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: issue.title,
+                body: issue.body,
+                labels: issue.labels
+              });
+              
+              console.log(`Created issue #${response.data.number}: ${issue.title}`);
+            } catch (error) {
+              console.error(`Failed to create issue "${issue.title}":`, error.message);
+            }
+          }
