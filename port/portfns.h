@@ -303,6 +303,16 @@ void		savefpregs(FPsave*);
 void		sched(void);
 void		scheddump(void);
 void		schedinit(void);
+/* Cognitive scheduling functions */
+void		coginit(void);
+void		cogready(Proc*);
+Proc*		cogrunproc(void);
+void		cogupdate(Proc*);
+float		cogattention(Proc*);
+void		cogsetfeature(Proc*, int, float);
+void		cogdump(void);
+int		iscognitive(Proc*);
+void		cogemergency(int);
 void		(*screenputs)(char*, int);
 long		seconds(void);
 ulong		segattach(Proc*, ulong, char *, ulong, ulong);

@@ -640,6 +640,46 @@ enum
 	PriRoot		= 13,		/* base priority for root processes */
 };
 
+/* Cognitive scheduling constants */
+enum
+{
+	CogMaxProcs	= 256,		/* maximum processes in cognitive scheduler */
+	CogMaxFeatures	= 8,		/* number of cognitive features per process */
+	CogTimeWindow	= 32,		/* time window for attention calculation */
+	CogAttentionLevels = 4,		/* attention priority levels */
+};
+
+/* Cognitive attention tensor: [n_procs, n_features, t_time] */
+struct CogTensor
+{
+	Lock;
+	float	data[CogMaxProcs][CogMaxFeatures][CogTimeWindow];
+	ulong	timestamp[CogTimeWindow];
+	int	current_time;
+	int	active_procs;
+};
+
+/* Cognitive priority queue with attention-based ordering */
+struct CogSchedq
+{
+	Lock;
+	Proc*	head;
+	Proc*	tail;
+	int	n;
+	float	attention_threshold;	/* minimum attention for this queue */
+};
+
+/* Attention allocator state */
+struct AttentionAlloc
+{
+	Lock;
+	CogSchedq	queues[CogAttentionLevels];	/* attention-based priority queues */
+	CogTensor	tensor;				/* primary attention tensor */
+	ulong		total_attention;		/* total system attention */
+	ulong		last_update;			/* last attention calculation */
+	int		emergency_mode;			/* emergency scheduling mode */
+};
+
 struct Schedq
 {
 	Lock;
@@ -776,6 +816,14 @@ struct Proc
 	void	*ureg;		/* User registers for notes */
 	void	*dbgreg;	/* User registers for devproc */
 	Notsave;
+
+	/* Cognitive scheduling fields */
+	int	cog_index;		/* index in cognitive tensor */
+	float	attention_level;	/* current attention allocation */
+	float	cognitive_features[CogMaxFeatures]; /* cognitive feature vector */
+	ulong	last_attention_update;	/* timestamp of last attention calculation */
+	Proc	*cog_next;		/* next process in cognitive queue */
+	int	is_cognitive;		/* process uses cognitive scheduling */
 
 	/*
 	 *  machine specific MMU

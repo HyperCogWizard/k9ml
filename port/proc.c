@@ -423,11 +423,23 @@ ready(Proc *p)
 		m->readied = p;	/* group scheduling */
 
 	updatecpu(p);
+	
+	/* Update cognitive features if this is a cognitive process */
+	if(p->is_cognitive){
+		cogupdate(p);
+	}
+	
 	pri = reprioritize(p);
 	p->priority = pri;
 	rq = &runq[pri];
 	p->state = Ready;
 	queueproc(rq, p);
+	
+	/* Also add to cognitive scheduler if enabled */
+	if(p->is_cognitive){
+		cogready(p);
+	}
+	
 	pt = proctrace;
 	if(pt)
 		pt(p, SReady, 0);
@@ -502,6 +514,11 @@ runproc(void)
 	void (*pt)(Proc*, int, vlong);
 
 	start = perfticks();
+
+	/* Try cognitive scheduler first for high-priority cognitive processes */
+	if((p = cogrunproc()) != nil){
+		goto found;
+	}
 
 	/* cooperative scheduling until the clock ticks */
 	if((p=m->readied) && p->mach==0 && p->state==Ready
@@ -653,6 +670,14 @@ newproc(void)
 	p->lastupdate = MACHP(0)->ticks*Scaling;
 	p->edf = nil;
 
+	/* cognitive sched params */
+	p->cog_index = -1;
+	p->attention_level = 0.0;
+	p->last_attention_update = MACHP(0)->ticks;
+	p->cog_next = nil;
+	p->is_cognitive = 0; /* disabled by default */
+	memset(p->cognitive_features, 0, sizeof(p->cognitive_features));
+
 	return p;
 }
 
@@ -723,6 +748,9 @@ procinit0(void)		/* bad planning - clashes with devproc.c */
 	for(i=0; i<conf.nproc-1; i++,p++)
 		p->qnext = p+1;
 	p->qnext = 0;
+	
+	/* Initialize cognitive scheduler */
+	coginit();
 }
 
 /*

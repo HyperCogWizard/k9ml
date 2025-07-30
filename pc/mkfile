@@ -35,6 +35,7 @@ PORT=\
 	qlock.$O\
 	rdb.$O\
 	rebootcmd.$O\
+	sched.$O\
 	segment.$O\
 	swap.$O\
 	sysfile.$O\
